@@ -1,0 +1,17 @@
+- hosts: ansible_host
+  gather_facts: no
+
+  tasks:
+    - name: Login to Docker Hub
+      docker_login:
+        username: c1t1d0s7
+        password: "{{ lookup('env', 'PASS') }}"
+        reauthorize: yes
+
+    - name: Build and Push Image
+      docker_image:
+        build:
+          path: /home/vagrant/java-hello-world
+        name: c1t1d0s7/java-hello
+        push: yes
+        source: build
